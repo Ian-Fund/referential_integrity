@@ -1,0 +1,31 @@
+Team Info: 
+Willard Boss(1123435)
+Ian Fund(1656736)
+
+Program instrutions:
+
+python refint.py database=filename.txt;err=float
+
+How our program runs: 
+
+Our programs begins by parcing the argument and getting the filename and error value if provided.
+we then read the input file line by line and for each line parse the input to determine: Tablename, Primary Keys, Foreign Keys, Reference Tables
+
+Once this is established, we make a SQL call to the table name and calculate the Entity error. We do this by storying the total row count in a table called PK_counts which is created
+at run time and dropped after the program completes. We store a disctinct count of the Primary Key or Keys. 
+
+We then calculating the number of correct Foreign key calls by checking which values are not in the reference table and which values are null. If their are multiple keys we compute this for each key individually. we store the total row count and number of errors in a table called FK_counts which is created at run time and dropped as the program ends. 
+
+After we have calculated the values we store store the table name, 1 -(Pk distinct row count / total row count), the FK error row count / total row count, and a default 'N' value in the tablename, entityerr, referntial err, ok columns of a qm_table that is already created on our server. This is all done in one line of SQL. 
+
+We then repeat this process for every line of the input file. 
+
+after the qm_table has been filled we update the ok columns values where the error threshold is less than or equal to the given error threshold for the entityerr and the referentialerr to a 'Y'. 
+
+and then close all our connections.
+
+List of drawbacks. 
+
+Areas that proved difficult for our group were how to update our ok column values, our group originially wanted to update all values per row with one SQL instruction. However, we ran into complications with If statements and we ultimately abandoned that goal and merely updated the table after the fact. Additonal drawbacks were the vague input parameters. Creating a python parser to handle every possible combinations of inputs including errors in the typing of the inputs proved tedious. While we feel confident in our parser, we were left uncertain if we covered every possible permuation of the inputs. Standardizing input for the purpose of excersize would be benefifical in future assignments, just so we can focus more on the SQL rather than our input parser.  
+
+
